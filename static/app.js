@@ -55,6 +55,8 @@ highlighter.states.add({
   }
 });
 
+highlighter.animate;
+
 exposeButton = new Layer({
   visible: false,
   y: 620,
@@ -171,7 +173,7 @@ layerUI.onStateDidSwitch(function() {
 exposeButton.onTap(function() {
   layerContent.visible = true;
   exposeButton.visible = false;
-  return highlighter.states.next();
+  return highlighter.states["switch"]("think");
 });
 
 prevButton.onTap(function() {
