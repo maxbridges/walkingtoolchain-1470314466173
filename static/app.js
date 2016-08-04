@@ -1,4 +1,4 @@
-var exposeButton, layerA, layerContent, layerUI, nextButton, prevButton;
+var exposeButton, highlighter, layerA, layerContent, layerUI, nextButton, prevButton;
 
 layerA = new BackgroundLayer({
   backgroundColor: "rgba(130,130,130,1)"
@@ -19,6 +19,39 @@ layerUI.states.add({
     y: 0,
     height: 900,
     width: 1600
+  }
+});
+
+highlighter = new Layer({
+  visible: false
+});
+
+highlighter.states.add({
+  think: {
+    visible: true,
+    x: 615,
+    y: 250,
+    height: 450,
+    width: 94,
+    backgroundColor: "yellow",
+    opacity: .2
+  },
+  code: {
+    x: 615 + 94.
+  },
+  deliver: {
+    x: 610 + (94 * 2),
+    width: 170
+  },
+  run: {
+    x: 592 + (94 * 4),
+    width: 90
+  },
+  manage: {
+    x: 588 + (94 * 5)
+  },
+  culture: {
+    x: 583 + (94 * 6)
   }
 });
 
@@ -43,7 +76,7 @@ exposeButton = new Layer({
 layerContent = new Layer({
   visible: false,
   backgroundColor: "#0F212E",
-  html: "<strong>Microservices Toolchain</strong><br/><br/> <p>This is an explanation of this particular template. Isn't it grand?</p> <p>Have you ever seen a toolchain template? It's quite a marvellous thing.</p> <p>You can scan your stuff to make sure it's not awful, and also track your stuff after it's deployed so that you can see when it breaks.</p>",
+  html: "<h2>Microservices Toolchain</h2><br/><h3>Think:</h3> <em>Incrementally deliver awesome solutions</em> <p><strong>Issues</strong> is a tracking tool that is integrated with your GitHub repository. Use Issues to focus on important tasks and keep plans up to date simultaneously.</p>",
   x: 99,
   y: 280,
   height: 360,
@@ -56,15 +89,23 @@ layerContent = new Layer({
 layerContent.states.add({
   second: {
     visible: true,
-    html: "<strong>Microservices Toolchain 2</strong><br/><br/> <p>Sigh. More text.</p> <p>What's that? Text, you say?</p> <p>Whoa! Text?!</p>"
+    html: "<h2>Microservices Toolchain</h2><br/><h3>Code:</h3> <em>Create innovative solutions fast</em> <p><strong>GitHub</strong> makes it easy to manage source code and revision history, and to track bugs, feature requests and tasks in hosted Git repositories.</p><br/> <p>Use the <strong>Orion Web IDE</strong> in IBM® Bluemix® DevOps Services to create, edit, run, debug, perform source control tasks and deploy your code.</p>"
   },
   third: {
     visible: true,
-    html: "<strong>Microservices Toolchain 3</strong><br/><br/> <p>I've never seen a tool integration quite like this one!</p> <p>How neat is that!</p> <p>Can you hear it screaming?</p>"
+    html: "<h2>Microservices Toolchain</h2><br/><h3>Deliver:</h3> <em>Accelerate time to market and reduce costs</em> <p><strong>The Delivery Pipeline</strong> provides automated, continuous delivery to the IBM® Bluemix® cloud.</p><br/> <p>Run continuous integration tests securely and efficiently in the cloud without the hassles of managing infrastructure using <strong>Sauce Labs</strong>.</p>"
   },
   fourth: {
     visible: true,
-    html: "<strong>Microservices Toolchain 4</strong><br/><br/> <p>This is the greatest tool integration I've ever seen. </p> <p>Okay--just that last line, and then you're up, slugger!</p> <p>All dogs must be treasured.</p>"
+    html: "<h2>Microservices Toolchain</h2><br/><h3>Run:</h3> <em>Services, options, and capabilities to run solutions</em> <p><strong>IBM® Bluemix®</strong> is an open-standards cloud platform that provides flexible computing options, various DevOps tools, and a powerful set of IBM and third-party APIs and services so that you can focus on building excellent user experiences.</p>"
+  },
+  fifth: {
+    visible: true,
+    html: "<h2>Microservices Toolchain</h2><br/><h3>Manage:</h3> <em>Ensure operational excellence</em> <p>Use <strong>PagerDuty</strong> to reduce downtime by notifying your operations team of critical incidents as soon as they happen.</p>"
+  },
+  sixth: {
+    visible: true,
+    html: "<h2>Microservices Toolchain</h2><br/><h3>Culture:</h3> <em>Transform & innovate with speed</em> <p><strong>Slack</strong> improves team collaboration by integrating real-time messaging with a multitude of cloud storage, development, testing, operations, analytics, and productivity services.</p>"
   }
 });
 
@@ -129,7 +170,8 @@ layerUI.onStateDidSwitch(function() {
 
 exposeButton.onTap(function() {
   layerContent.visible = true;
-  return exposeButton.visible = false;
+  exposeButton.visible = false;
+  return highlighter.states.next();
 });
 
 prevButton.onTap(function() {
@@ -138,15 +180,17 @@ prevButton.onTap(function() {
 });
 
 nextButton.onTap(function() {
-  return layerContent.states.next("second", "third", "fourth", "default");
+  layerContent.states.next("second", "third", "fourth", "fifth", "sixth", "default");
+  return highlighter.states.next();
 });
 
 layerContent.onStateDidSwitch(function() {
-  if (layerContent.states.current === "fourth") {
+  if (layerContent.states.current === "sixth") {
     nextButton.html = "<strong>Close</strong>";
   }
   if (layerContent.states.current === "default") {
     exposeButton.visible = true;
-    return nextButton.html = "<strong>Next</strong>";
+    nextButton.html = "<strong>Next</strong>";
+    return highlighter.states.next("default");
   }
 });
