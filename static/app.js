@@ -33,7 +33,7 @@ highlighter.states.add({
     y: 250,
     height: 450,
     width: 94,
-    backgroundColor: "yellow",
+    backgroundColor: "lightblue",
     opacity: .2
   },
   code: {
